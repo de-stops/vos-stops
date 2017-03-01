@@ -5,23 +5,32 @@ This is a simple script to download all [VOS](https://www.vos.info) stops as [GT
 The script uses the following endpoint:
 
 ```
-https://www.efa.de/efaws2/default/XML_COORD_REQUEST?mId=efa_www&language=en&itdLPxx_mapName=MRCV&coordOutputFormat=WGS84%5BGGZHTXX%5D&boundingBox=1&boundingBoxLU={minx}%3A{miny}%3AWGS84%5BDD.DDDDD%5D&boundingBoxRL={maxx}%3A{maxy}%3AWGS84%5BDD.DDDDD%5D&inclFilter=1&purpose=5&max=-1&coordListFormat=STRING&itdLPxx_mdvMapName=mdvMap_efaFullPanelMap&coordListOutputFormat=STRING&scale=13&outputFormat=JSON&type_1=STOP&inclDrawClasses_1=
+https://fahrplan.vos.info/bin/query.exe/dny?performLocating=2&tpl=stop2json&look_stopclass=2147483647&look_minx={minx}&look_miny={miny}&look_maxx={maxx}&look_maxy={maxy}
 ```
 
-It starts from bounding box `(6.2, 51.2, 11.6, 54.2)` and works down to smaller quadrants.
+It starts from bounding box `(5, 47, 15, 56)` and works down to smaller quadrants.
+
 
 The script produces CSV output in the following format:
 
 ```
-"stop_id","stop_name","stop_lon","stop_lat","stop_code"
-"28160747","Wallenhorst, Hollage Sandbachstraße",7.98050722,52.3323987126,"de:3459:60747"
+stop_id,stop_name,stop_lon,stop_lat,stop_code
+"100071","Osnabrück Hauptbahnhof/ZOB",8.059746,52.272633,""
 ```
+
+# Prerequisites
+
+These scrips use PostGIS to filter stops belonging to administrative regions covered by the transport company.  
+See [this project](https://github.com/highsource/postgis-verwaltungsgebiete) for a simple way to create a PostGIS database with administrative regions.
 
 # Usage
 
+## Windows
+
 ```
 npm install
-node index.js
+00-export-unfiltered-stops
+01-filter-stops
 ```
 
 # Disclaimer
